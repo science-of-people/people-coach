@@ -477,13 +477,16 @@ img {
     gap: 0.5rem;
   }
 
-  /* Full-width buttons on small screens */
+  /* Full-width buttons on small screens - except hero and centered buttons */
   .btn {
     width: 100%;
     text-align: center;
   }
 
-  .nav-actions .btn {
+  .nav-actions .btn,
+  .hero .btn,
+  .text-center .btn,
+  [style*="text-align: center"] .btn {
     width: auto;
   }
 
@@ -685,13 +688,13 @@ img[loading="lazy"] {
 /* Safe area insets for notched devices */
 @supports (padding: max(0px)) {
   .hero {
-    padding-left: max(var(--spacing-md), env(safe-area-inset-left));
-    padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+    padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
   }
 
   .container {
-    padding-left: max(var(--spacing-md), env(safe-area-inset-left));
-    padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+    padding-left: max(var(--spacing-sm), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-sm), env(safe-area-inset-right));
   }
 }
 
