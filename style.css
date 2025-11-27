@@ -242,27 +242,44 @@ img {
   padding-top: 80px;
 }
 
+/* Disable parallax on mobile/tablet for performance and iOS compatibility */
+@supports (-webkit-touch-callout: none) {
+  .hero {
+    background-attachment: scroll;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    background-attachment: scroll;
+  }
+}
+
 .hero-content {
   max-width: 800px;
   text-align: center;
   z-index: 2;
+  padding: 0 var(--spacing-sm);
 }
 
 .hero h1 {
   color: var(--color-white);
-  font-size: 4rem;
+  font-size: clamp(2rem, 6vw, 4rem);
   margin-bottom: var(--spacing-md);
+  line-height: 1.1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .hero p {
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
   margin-bottom: var(--spacing-lg);
   font-weight: 300;
 }
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: var(--spacing-lg);
   margin-top: var(--spacing-lg);
 }
@@ -316,28 +333,66 @@ img {
   font-weight: bold;
 }
 
-/* Responsive */
+/* Reduced motion preference - disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero {
+    background-attachment: scroll;
+  }
+}
+
+/* Responsive - Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --spacing-xl: 6rem;
+    --spacing-lg: 3rem;
+  }
+
+  .hero {
+    min-height: 500px;
+  }
+}
+
+/* Responsive - Large Mobile / Small Tablet */
 @media (max-width: 768px) {
   :root {
     --spacing-xl: 4rem;
+    --spacing-lg: 2.5rem;
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
   }
 
-  .hero h1 {
-    font-size: 2.5rem;
+  h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
   }
 
   .hero {
     height: auto;
-    padding: var(--spacing-xl) 0;
+    min-height: auto;
+    padding: calc(var(--spacing-xl) + 60px) 0 var(--spacing-xl);
+  }
+
+  .hero-badge {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 0.4rem 0.8rem;
   }
 
   .nav-links {
     display: none;
-    /* Hidden by default on mobile */
     position: absolute;
     top: 100%;
     left: 0;
@@ -350,6 +405,121 @@ img {
 
   .nav-links.active {
     display: flex;
+  }
+
+  /* Improve button touch targets */
+  .btn {
+    padding: 0.875rem 1.5rem;
+    min-height: 44px;
+    font-size: 0.875rem;
+  }
+
+  .nav-actions .btn {
+    padding: 0.625rem 1rem;
+    min-height: 44px;
+  }
+
+  /* Feature grid adjustments */
+  .feature-grid {
+    gap: var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-sm);
+  }
+
+  /* Caption card positioning fix */
+  .caption-card {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    margin-top: var(--spacing-sm);
+  }
+
+  /* Section spacing */
+  .section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  /* Container padding */
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 480px) {
+  :root {
+    --spacing-xl: 3rem;
+    --spacing-lg: 2rem;
+    --spacing-md: 1.5rem;
+  }
+
+  body {
+    font-size: 0.9375rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .hero {
+    padding: calc(var(--spacing-lg) + 60px) 0 var(--spacing-lg);
+  }
+
+  .hero p {
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Stacked pricing display */
+  .pricing-display {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Full-width buttons on small screens */
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-actions .btn {
+    width: auto;
+  }
+
+  /* Better readability */
+  .check-list li,
+  .cross-list li {
+    font-size: 0.9375rem;
+    padding-left: 1.5rem;
+  }
+}
+
+/* Responsive - Small Mobile */
+@media (max-width: 375px) {
+  :root {
+    --spacing-xl: 2.5rem;
+    --spacing-lg: 1.5rem;
+    --spacing-md: 1rem;
+    --spacing-sm: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.375rem;
+  }
+
+  .hero-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -367,7 +537,7 @@ img {
 .content-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
 }
 
@@ -423,4 +593,141 @@ img {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+/* ==============================================
+   MOBILE-FIRST UTILITY OVERRIDES
+   Handle inline styles used in HTML
+   ============================================== */
+
+/* Flex layout mobile adjustments - targets inline styles with flex: 1 and min-width */
+@media (max-width: 768px) {
+  /* Why Learn From Me section */
+  [style*="flex: 1"][style*="min-width: 300px"],
+  [style*="flex: 1; min-width: 300px"],
+  [style*="flex:1"] {
+    flex: 1 1 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Flex wrap containers with gap */
+  [style*="display: flex"][style*="flex-wrap: wrap"],
+  [style*="display: flex; flex-wrap: wrap"] {
+    gap: 2rem !important;
+  }
+
+  /* Transformation cards (min-width: 250px items) */
+  [style*="min-width: 250px"] {
+    min-width: 0 !important;
+    flex: 1 1 100% !important;
+  }
+
+  /* Image blocks */
+  .image-block {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Reduce gaps further on small screens */
+  [style*="display: flex"][style*="gap: 4rem"],
+  [style*="gap: 4rem"] {
+    gap: 1.5rem !important;
+  }
+
+  [style*="gap: 2rem"] {
+    gap: 1rem !important;
+  }
+
+  /* Icon list items */
+  [style*="display: flex"][style*="gap: 1rem"] {
+    gap: 0.75rem !important;
+  }
+
+  /* Padding adjustments */
+  [style*="padding: 3rem"] {
+    padding: 1.5rem !important;
+  }
+
+  [style*="padding: 2rem"] {
+    padding: 1rem !important;
+  }
+
+  /* Margin top adjustments */
+  [style*="margin-top: 4rem"] {
+    margin-top: 2rem !important;
+  }
+
+  [style*="margin-top: 3rem"] {
+    margin-top: 1.5rem !important;
+  }
+
+  /* Font size adjustments for inline styles */
+  [style*="font-size: 2rem"] {
+    font-size: 1.5rem !important;
+  }
+
+  [style*="font-size: 1.5rem"] {
+    font-size: 1.125rem !important;
+  }
+
+  [style*="font-size: 4rem"] {
+    font-size: 2.5rem !important;
+  }
+}
+
+/* Image lazy loading styles */
+img[loading="lazy"] {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  .hero {
+    padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+  }
+
+  .container {
+    padding-left: max(var(--spacing-md), env(safe-area-inset-left));
+    padding-right: max(var(--spacing-md), env(safe-area-inset-right));
+  }
+}
+
+/* Better tap highlighting for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .btn,
+  a {
+    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.3);
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+
+/* Transformation section background - disable any fixed positioning on mobile */
+@media (max-width: 768px) {
+  [style*="background-image: url"][style*="background-size: cover"] {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Pricing display flexbox fix */
+@media (max-width: 480px) {
+  [style*="display: flex"][style*="align-items: baseline"][style*="justify-content: center"] {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+  }
+}
+
+/* FAQ section mobile improvements */
+.faq-item h3 {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+.faq-item p {
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
