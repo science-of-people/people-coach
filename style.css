@@ -161,6 +161,17 @@ img {
   color: var(--color-gold);
 }
 
+.btn-outline-gold {
+  background-color: transparent;
+  border: 2px solid var(--color-gold);
+  color: var(--color-gold);
+}
+
+.btn-outline-gold:hover {
+  background-color: var(--color-gold);
+  color: var(--color-navy);
+}
+
 /* Specific Components */
 /* Navigation */
 .main-nav {
