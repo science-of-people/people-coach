@@ -58,3 +58,67 @@ window.addEventListener('scroll', () => {
         ticking = true;
     }
 }, { passive: true });
+
+// Customer.io Initialization
+const siteId = import.meta.env.VITE_CUSTOMER_IO_SITE_ID;
+if (siteId) {
+    window._cio = window._cio || [];
+    (function () {
+        var a, b, c; a = function (f) {
+            return function () {
+                window._cio.push([f].
+                    concat(Array.prototype.slice.call(arguments, 0)))
+            }
+        }; b = ["load", "identify",
+            "sidentify", "track", "page"]; for (c = 0; c < b.length; c++) { window._cio[b[c]] = a(b[c]) };
+        var t = document.createElement('script'),
+            s = document.getElementsByTagName('script')[0];
+        t.async = true;
+        t.id = 'cio-tracker';
+        t.setAttribute('data-site-id', siteId);
+        t.src = 'https://assets.customer.io/assets/track.js';
+        s.parentNode.insertBefore(t, s);
+    })();
+} else {
+    console.warn('VITE_CUSTOMER_IO_SITE_ID not set. Tracking disabled.');
+}
+
+// Waitlist Form Handling
+function setupWaitlistForm(formId, messageId) {
+    const form = document.getElementById(formId);
+    const message = document.getElementById(messageId);
+
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const emailInput = form.querySelector('input[type="email"]');
+            const email = emailInput.value;
+
+            if (email) {
+                // Send to Customer.io
+                if (typeof _cio !== 'undefined') {
+                    _cio.identify({
+                        id: email,
+                        email: email,
+                        created_at: Math.floor(Date.now() / 1000),
+                        lead_magnet: 'people-coach-waitlist'
+                    });
+                } else {
+                    console.log('Customer.io not loaded, would send:', email);
+                }
+
+                // Show success UI
+                form.style.display = 'none';
+                if (message) {
+                    message.classList.add('success');
+                }
+            }
+        });
+    }
+}
+
+// Initialize forms
+document.addEventListener('DOMContentLoaded', () => {
+    setupWaitlistForm('hero-waitlist-form', 'hero-form-message');
+    setupWaitlistForm('footer-waitlist-form', 'footer-form-message');
+});
