@@ -783,3 +783,51 @@ img[loading="lazy"] {
     padding: 0.75rem 1rem;
   }
 }
+
+/* Waitlist Form Styles */
+.waitlist-form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.waitlist-form input[type="email"] {
+  flex: 1;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.waitlist-form button {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .waitlist-form {
+    flex-direction: column;
+  }
+  
+  .waitlist-form button {
+    width: 100%;
+  }
+}
+
+.form-message {
+  margin-top: 1rem;
+  font-weight: 600;
+  display: none;
+  color: var(--color-gold);
+}
+
+.form-message.success {
+  display: block;
+}
+
+.form-message.error {
+    display: block;
+    color: #e74c3c;
+}
