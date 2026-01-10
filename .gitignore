@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Claude Code local settings (keep commands tracked for sharing)
+.claude/settings.local.json
+.claude/plugins/
+.claude/agents/
